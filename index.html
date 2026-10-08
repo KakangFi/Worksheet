@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Worksheet AI 2.0</title>
+<style>
+:root{
+ --bg:#08111f;--panel:#101d31;--panel2:#142641;--text:#eef6ff;--muted:#9eb0c8;
+ --a:#6c63ff;--b:#00d9ff;--c:#ff4ecd;--d:#63f5a5;--line:#263b58;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:
+radial-gradient(circle at 10% 10%,#20336d 0,transparent 28%),radial-gradient(circle at 90% 20%,#53245f 0,transparent 25%),var(--bg);color:var(--text)}
+button,select,input,textarea{font:inherit}
+button{cursor:pointer;border:0}
+.app{min-height:100vh}
+header{padding:28px 5vw 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;gap:14px;align-items:center}.logoIcon{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--a),var(--b));display:grid;place-items:center;font-size:25px;box-shadow:0 0 30px #5f6cff66}
+.logo h1{margin:0;font-size:clamp(22px,4vw,34px)}.logo p{margin:3px 0;color:var(--muted);font-size:13px}
+.badge{padding:8px 12px;border:1px solid #ffffff22;border-radius:999px;background:#ffffff0c;color:#bdefff;font-size:12px}
+main{width:min(1200px,90vw);margin:auto;padding-bottom:50px}
+.hero{padding:22px 0 25px}.hero h2{font-size:clamp(28px,6vw,52px);line-height:1.02;margin:0 0 10px;max-width:750px}
+.gradient{background:linear-gradient(90deg,#fff,#7feeff,#d57bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);max-width:720px;margin:0}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+.card{background:linear-gradient(180deg,#ffffff0d,#ffffff06);border:1px solid #ffffff16;border-radius:24px;padding:22px;box-shadow:0 15px 45px #00000028;backdrop-filter:blur(12px)}
+.card h3{margin:0 0 16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field label{display:block;font-size:12px;color:#a9bbd3;margin-bottom:7px}
+select,input,textarea{width:100%;border:1px solid var(--line);background:#0b1729;color:var(--text);border-radius:13px;padding:12px;outline:none}
+select:focus,input:focus,textarea:focus{border-color:var(--b);box-shadow:0 0 0 3px #00d9ff18}
+textarea{min-height:105px;resize:vertical}
+.full{grid-column:1/-1}.checks{display:flex;flex-wrap:wrap;gap:9px}.chip{padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:#0b1729;color:#b8c8dc;cursor:pointer;font-size:12px}
+.chip.active{border-color:#00d9ff88;background:#00d9ff15;color:#fff}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btn{padding:12px 17px;border-radius:13px;font-weight:750;color:white;background:#1b2c46;border:1px solid #ffffff14}
+.btn.primary{background:linear-gradient(135deg,var(--a),#9a54ff);box-shadow:0 8px 25px #725cff35}.btn.accent{background:linear-gradient(135deg,#00a9d4,#00d9a8);color:#03131a}
+.btn.pink{background:linear-gradient(135deg,#e83ab9,#7959ff)}
+.status{margin-top:13px;color:#9eefff;font-size:12px;min-height:17px}
+.preview{min-height:400px}
+.empty{height:100%;min-height:350px;display:grid;place-items:center;text-align:center;color:var(--muted)}
+.empty div{max-width:330px}.empty .big{font-size:48px}
+.sheet{background:white;color:#101828;border-radius:12px;padding:34px;box-shadow:0 10px 35px #0005}
+.sheetHead{text-align:center;border-bottom:2px solid #172033;padding-bottom:16px;margin-bottom:20px}
+.sheetHead h2{margin:0 0 5px;font-size:23px}.sheetHead p{margin:4px 0;font-size:12px;color:#526174}
+.meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;margin:15px 0 25px;font-size:12px}.line{border-bottom:1px solid #8290a2;min-height:22px}
+.q{margin:0 0 18px;break-inside:avoid}.qtext{font-weight:600;line-height:1.45}.opts{margin:7px 0 0 18px;line-height:1.65}.answerLine{height:30px;border-bottom:1px dotted #8b97a8;margin-top:5px}
+.key{margin-top:35px;border-top:2px dashed #8c97a8;padding-top:18px}.key h3{text-align:center}
+.footer{text-align:center;color:#607086;font-size:10px;margin-top:28px}
+.sectionTitle{margin:28px 0 12px;font-size:14px;color:#c5d5e9}
+.notice{padding:12px 14px;border:1px solid #ffffff14;background:#ffffff08;border-radius:14px;color:#aebfd4;font-size:12px;line-height:1.5}
+@media(max-width:850px){header{align-items:flex-start}.grid{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.meta{grid-template-columns:1fr}.card{padding:16px}.sheet{padding:22px}}
+@media print{
+ body{background:white!important}.app{background:white!important}.no-print,header,.hero,.settings,.status{display:none!important}
+ main{width:100%;padding:0;margin:0}.grid{display:block}.preview{min-height:0}.card{border:0;box-shadow:none;padding:0;background:white}.sheet{box-shadow:none;border-radius:0;padding:0}
+ @page{size:A4;margin:13mm}.key{break-before:page}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="no-print">
+ <div class="logo"><div class="logoIcon">✦</div><div><h1>Worksheet AI <span style="color:#7eeeff">2.0</span></h1><p>Generator lembar kerja SD • Kurikulum Merdeka</p></div></div>
+ <div class="badge">⚡ Offline • Tanpa API</div>
+</header>
+<main>
+<section class="hero no-print">
+ <h2>Buat worksheet <span class="gradient">dalam hitungan detik.</span></h2>
+ <p>Pilih kelas, mata pelajaran, materi, dan tipe soal. Hasil bisa diacak, dilengkapi kunci jawaban, lalu langsung dicetak atau disimpan sebagai PDF.</p>
+</section>
+
+<div class="grid">
+<section class="card settings no-print">
+ <h3>🎛️ Pengaturan Generator</h3>
+ <div class="fields">
+  <div class="field"><label>KELAS</label><select id="kelas"></select></div>
+  <div class="field"><label>MATA PELAJARAN</label><select id="mapel"></select></div>
+  <div class="field full"><label>MATERI</label><select id="materi"></select></div>
+  <div class="field"><label>JUMLAH SOAL</label><select id="jumlah"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>25</option><option>30</option></select></div>
+  <div class="field"><label>KESULITAN</label><select id="sulit"><option value="mudah">Mudah</option><option value="sedang" selected>Sedang</option><option value="sulit">Sulit</option></select></div>
+  <div class="field full"><label>JENIS SOAL</label><div class="checks" id="types">
+   <span class="chip active" data-type="pg">Pilihan Ganda</span><span class="chip" data-type="isian">Isian</span><span class="chip" data-type="uraian">Uraian</span>
+  </div></div>
+  <div class="field"><label>NAMA / SEKOLAH (opsional)</label><input id="sekolah" placeholder="Contoh: SD Nusantara"></div>
+  <div class="field"><label>TOPIK / SUBJUDUL (opsional)</label><input id="subjudul" placeholder="Contoh: Latihan Bab 2"></div>
+  <div class="field full"><label>CATATAN MATERI TAMBAHAN (opsional)</label><textarea id="custom" placeholder="Tempel ringkasan materi di sini. Generator akan menggunakannya sebagai konteks tambahan."></textarea></div>
+ </div>
+ <div class="actions">
+  <button class="btn primary" id="generate">✨ Generate Worksheet</button>
+  <button class="btn" id="randomize">🔀 Acak Soal</button>
+  <button class="btn" id="keyToggle">🔑 Tampilkan/Sembunyikan Kunci</button>
+  <button class="btn accent" id="print">🖨️ Print / PDF</button>
+ </div>
+ <div class="status" id="status"></div>
+ <div class="notice" style="margin-top:15px">💡 Tips: untuk PDF, tekan <b>Print / PDF</b>, lalu pilih <b>Save as PDF</b> pada dialog cetak HP/Chrome.</div>
+</section>
+
+<section class="card preview">
+ <div id="empty" class="empty"><div><div class="big">🪄</div><h3>Worksheet akan muncul di sini</h3><p>Atur pilihan di sebelah kiri, lalu tekan <b>Generate Worksheet</b>.</p></div></div>
+ <div id="output" style="display:none"></div>
+</section>
+</div>
+</main>
+</div>
+
+<script>
+const DB = {
+"1":{
+"Matematika":["Bilangan 1–20","Penjumlahan","Pengurangan","Bentuk dan Pola","Panjang dan Berat","Bangun Datar"],
+"Bahasa Indonesia":["Menyimak dan Berbicara","Membaca Kata","Menulis Kata","Kalimat Sederhana","Kosakata"],
+"Bahasa Inggris":["Greetings","Numbers","Colors","Family","Classroom Objects"],
+"PAI":["Huruf Hijaiyah","Rukun Islam","Rukun Iman","Adab Sehari-hari","Kisah Nabi"],
+"IPAS":["Diri dan Pancaindra","Keluarga","Makhluk Hidup","Benda di Sekitar","Lingkungan Rumah"]
+},
+"2":{
+"Matematika":["Bilangan sampai 100","Penjumlahan dan Pengurangan","Perkalian Dasar","Pembagian Dasar","Panjang dan Berat","Bangun Datar"],
+"Bahasa Indonesia":["Teks Deskripsi Sederhana","Kalimat Tanya","Cerita Pendek","Kosakata","Petunjuk Sederhana"],
+"Bahasa Inggris":["Greetings","Family","Daily Activities","Numbers","Things Around Me"],
+"PAI":["Kalimat Tayyibah","Wudu","Salat","Akhlak Terpuji","Nabi dan Rasul"],
+"IPAS":["Pancaindra","Hewan dan Tumbuhan","Lingkungan","Cuaca","Benda dan Perubahannya"]
+},
+"3":{
+"Matematika":["Bilangan sampai 1.000","Perkalian dan Pembagian","Pecahan Sederhana","Pengukuran","Bangun Datar","Data Sederhana"],
+"Bahasa Indonesia":["Ide Pokok","Dongeng","Kalimat Efektif","Kosakata","Teks Informasi"],
+"Bahasa Inggris":["Daily Activities","Time","Food and Drinks","Hobbies","Places"],
+"PAI":["Asmaul Husna","Salat Berjamaah","Puasa","Akhlak","Kisah Nabi Muhammad"],
+"IPAS":["Makhluk Hidup","Siklus Hidup","Gaya dan Gerak","Energi","Lingkungan"]
+},
+"4":{
+"Matematika":["Bilangan Cacah","Faktor dan Kelipatan","Pecahan","Desimal","Pengukuran","Bangun Datar","Data"],
+"Bahasa Indonesia":["Ide Pokok","Teks Deskripsi","Teks Narasi","Wawancara","Puisi","Kalimat Majemuk"],
+"Bahasa Inggris":["Introducing Self","Daily Routines","Food","Transportation","Directions","Simple Present"],
+"PAI":["Surah Pendek","Asmaul Husna","Salat","Puasa Ramadan","Zakat","Akhlak Terpuji"],
+"IPAS":["Tumbuhan","Wujud Zat","Gaya","Energi","Siklus Air","Peta dan Lingkungan"],
+},
+"5":{
+"Matematika":["Operasi Pecahan","Desimal dan Persen","KPK dan FPB","Bangun Ruang","Volume","Kecepatan","Data"],
+"Bahasa Indonesia":["Teks Eksplanasi","Teks Persuasi","Ringkasan","Iklan","Surat","Pantun"],
+"Bahasa Inggris":["Simple Present","Present Continuous","Past Events","Describing People","Places","Instructions"],
+"PAI":["Al-Qur'an","Iman kepada Rasul","Salat","Puasa","Zakat","Akhlak"],
+"IPAS":["Sistem Organ Tubuh","Ekosistem","Siklus Air","Energi","Bumi dan Cuaca","Kegiatan Ekonomi"],
+},
+"6":{
+"Matematika":["Operasi Bilangan","Pecahan dan Persen","Perbandingan","Bangun Ruang","Volume","Kecepatan dan Jarak","Penyajian Data"],
+"Bahasa Indonesia":["Teks Eksplanasi","Pidato","Teks Persuasi","Ringkasan","Kalimat Efektif","Literasi"],
+"Bahasa Inggris":["Past Tense","Future Plans","Descriptions","Instructions","Conversation","Vocabulary"],
+"PAI":["Al-Qur'an dan Hadis","Iman kepada Hari Akhir","Zakat dan Sedekah","Haji","Akhlak","Sejarah Islam"],
+"IPAS":["Tata Surya","Listrik","Ekosistem","Perubahan Lingkungan","Benua dan Negara","Kegiatan Ekonomi"]
+}};
+
+const $=id=>document.getElementById(id);
+const state={questions:[],showKey:false};
+function fill(el,arr){$(el).innerHTML=arr.map(x=>`<option value="${x}">${x}</option>`).join('')}
+fill("kelas",Object.keys(DB).map(x=>"Kelas "+x));
+fill("mapel",Object.keys(DB["1"]));
+function selectedClass(){return $("kelas").value.replace("Kelas ","")}
+function updateMateri(){fill("materi",DB[selectedClass()][$("mapel").value]||[])}
+$("kelas").onchange=updateMateri;
+$("mapel").onchange=updateMateri;
+updateMateri();
+
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>c.classList.toggle("active"));
+const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function nums(n=100){return Math.floor(Math.random()*n)+1}
+function mathQuestion(topic,diff,type){
+ let a,b,op,ans,text;
+ if(topic.includes("Pecahan")||topic.includes("pecahan")){
+   const den=[2,3,4,5,6,8][Math.floor(Math.random()*6)], x=1+Math.floor(Math.random()*(den-1));
+   const y=1+Math.floor(Math.random()*(den-x));
+   ans=x+y; text=`Rani memiliki <b>${x}/${den}</b> bagian kue lalu mendapat lagi <b>${y}/${den}</b>. Berapa bagian kue Rani sekarang?`;
+   if(type==="pg") return q(text,`${ans}/${den}`,[`${ans}/${den}`,`${Math.max(1,ans-1)}/${den}`,`${x}/${den}`,`${y}/${den}`]);
+   return q(text,`${ans}/${den}`);
+ }
+ if(topic.includes("Persen")){a=10*(1+Math.floor(Math.random()*8));b=10*(1+Math.floor(Math.random()*6));ans=a*b/100;return q(`Berapakah ${b}% dari ${a}?`,ans,pg(ans))}
+ if(topic.includes("Perbandingan")){a=2+nums(5);b=2+nums(5);return q(`Sederhanakan perbandingan ${a*2} : ${b*2}.`,`${a} : ${b}`)}
+ if(topic.includes("Perkalian")||topic.includes("perkalian")){a=2+nums(9);b=2+nums(9);ans=a*b;return q(`${a} × ${b} = ...`,ans,pg(ans))}
+ if(topic.includes("Pembagian")||topic.includes("pembagian")){b=2+nums(8);ans=2+nums(10);a=b*ans;return q(`${a} ÷ ${b} = ...`,ans,pg(ans))}
+ if(topic.includes("Penjumlahan")||topic.includes("Operasi")||topic.includes("Bilangan")){a=nums(diff==="sulit"?500:100);b=nums(diff==="sulit"?300:100);op=pick(["+","-"]);ans=op==="+"?a+b:a-b;if(ans<0)[a,b]=[b,a],ans=a-b;return q(`${a} ${op} ${b} = ...`,ans,pg(ans))}
+ if(topic.includes("Kelipatan")||topic.includes("KPK")){a=2+nums(8);b=2+nums(8);ans=lcm(a,b);return q(`Tentukan KPK dari ${a} dan ${b}.`,ans,pg(ans))}
+ if(topic.includes("FPB")){a=2+nums(20);b=2+nums(20);ans=gcd(a,b);return q(`Tentukan FPB dari ${a} dan ${b}.`,ans,pg(ans))}
+ if(topic.includes("Volume")){a=2+nums(8);b=2+nums(8);let c=2+nums(6);ans=a*b*c;return q(`Sebuah balok memiliki panjang ${a} cm, lebar ${b} cm, dan tinggi ${c} cm. Berapa volumenya?`,`${ans} cm³`,pg(ans+" cm³"))}
+ if(topic.includes("Bangun Ruang")){a=2+nums(10);return q(`Sebuah kubus memiliki panjang rusuk ${a} cm. Berapa volumenya?`,`${a*a*a} cm³`,pg(`${a*a*a} cm³`))}
+ if(topic.includes("Kecepatan")){a=20+nums(5)*10;b=2+nums(4);ans=a/b;return q(`Sebuah kendaraan menempuh ${a} km dalam ${b} jam. Berapa kecepatannya?`,`${ans} km/jam`,pg(`${ans} km/jam`))}
+ if(topic.includes("Data")){let arr=[3,5,4,6,2];let mx=Math.max(...arr);return q(`Perhatikan data: ${arr.join(", ")}. Nilai terbesar adalah ...`,mx,pg(mx))}
+ return null;
+}
+function gcd(a,b){while(b){[a,b]=[b,a%b]}return a}
+function lcm(a,b){return a/gcd(a,b)*b}
+function pg(ans){let out=[String(ans)];while(out.length<4){let d=pick([-3,-2,-1,1,2,3]);let x=typeof ans==="number"?ans+d:`${ans} (${d>0?"+":""}${d})`;if(!out.includes(String(x)))out.push(String(x))}return shuffle(out)}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function q(text,answer,opts=[]){return {text,answer,opts}}
+function generalQuestion(mapel,topic,type){
+ const bank={
+ "Bahasa Indonesia":[
+  [`Apa gagasan utama dalam sebuah paragraf disebut ...`,"ide pokok",["judul","ide pokok","kalimat penutup","tokoh"]],
+  [`Kata yang digunakan untuk menanyakan alasan adalah ...`,"mengapa",["siapa","kapan","mengapa","di mana"]],
+  [`Teks yang menggambarkan suatu objek secara rinci disebut teks ...`,"deskripsi",["narasi","deskripsi","persuasi","prosedur"]],
+  [`Pesan yang ingin disampaikan penulis kepada pembaca disebut ...`,"amanat",["amanat","latar","tokoh","judul"]]],
+ "Bahasa Inggris":[
+  [`What is the English word for "buku"?`,"book",["book","table","chair","door"]],
+  [`"Good morning" is usually used in the ...`,"morning",["morning","afternoon","evening","night"]],
+  [`The English word for "merah" is ...`,"red",["red","green","blue","yellow"]],
+  [`"I eat breakfast" means ...`,"Saya sarapan",["Saya sarapan","Saya tidur","Saya bermain","Saya pergi sekolah"]]],
+ "PAI":[
+  [`Jumlah Rukun Islam ada ...`,"5",["3","4","5","6"]],
+  [`Salat wajib dalam sehari semalam berjumlah ... waktu.`,"5",["3","4","5","6"]],
+  [`Sebelum salat, seorang muslim biasanya melakukan ...`,"wudu",["tidur","wudu","bermain","makan"]],
+  [`Kitab suci umat Islam adalah ...`,"Al-Qur'an",["Injil","Weda","Al-Qur'an","Taurat"]]],
+ "IPAS":[
+  [`Alat untuk melihat benda yang sangat kecil adalah ...`,"mikroskop",["teleskop","mikroskop","termometer","kompas"]],
+  [`Tumbuhan membuat makanan sendiri melalui proses ...`,"fotosintesis",["respirasi","fotosintesis","evaporasi","filtrasi"]],
+  [`Sumber energi utama bagi kehidupan di Bumi adalah ...`,"Matahari",["Bulan","Matahari","Angin","Tanah"]],
+  [`Perubahan air menjadi uap disebut ...`,"penguapan",["pembekuan","penguapan","pencairan","pengembunan"]]]
+ };
+ let arr=bank[mapel]||[];
+ if(!arr.length)return q(`Tuliskan tiga hal penting yang kamu ketahui tentang materi <b>${esc(topic)}</b>.`,"Jawaban sesuai materi.");
+ let x=pick(arr); return q(x[0],x[1],type==="pg"?x[2]:[]);
+}
+function makeQuestion(type){
+ const c=selectedClass(),m=$("mapel").value,t=$("materi").value,d=$("sulit").value;
+ let x=m==="Matematika"?mathQuestion(t,d,type):generalQuestion(m,t,type);
+ if(!x)x=generalQuestion(m,t,type);
+ x.type=type; return x;
+}
+function render(){
+ $("empty").style.display="none";$("output").style.display="block";
+ let school=esc($("sekolah").value||"Worksheet SD"), sub=esc($("subjudul").value||$("materi").value);
+ let html=`<div class="sheet"><div class="sheetHead"><h2>LEMBAR KERJA PESERTA DIDIK</h2><p>${school}</p><p>${esc($("mapel").value)} • ${esc($("kelas").value)} • ${sub}</p></div>
+ <div class="meta"><div>Nama: <span class="line"></span></div><div>Kelas: <span class="line">${esc($("kelas").value)}</span></div><div>Tanggal: <span class="line"></span></div></div>`;
+ state.questions.forEach((x,i)=>{
+ html+=`<div class="q"><div class="qtext">${i+1}. ${x.text}</div>`;
+ if(x.type==="pg")html+=`<div class="opts">${x.opts.map((o,j)=>`${String.fromCharCode(65+j)}. ${esc(o)}`).join("<br>")}</div>`;
+ else html+=`<div class="answerLine"></div><div class="answerLine"></div>`;
+ html+=`</div>`;
+ });
+ html+=`<div class="footer">Worksheet AI 2.0 • ${esc($("mapel").value)} • ${esc($("kelas").value)}</div>`;
+ if(state.showKey){html+=`<div class="key"><h3>KUNCI JAWABAN</h3>`;state.questions.forEach((x,i)=>{let a=x.answer;if(x.type==="pg"){let idx=x.opts.findIndex(o=>String(o)===String(a));a=String.fromCharCode(65+Math.max(0,idx))+". "+a}html+=`<p><b>${i+1}.</b> ${esc(a)}</p>`});html+=`</div>`}
+ html+="</div>";$("output").innerHTML=html;
+}
+function generate(){
+ let types=[...document.querySelectorAll(".chip.active")].map(x=>x.dataset.type);if(!types.length){types=["pg"]}
+ let n=+$("jumlah").value,stateSet=new Set(),arr=[];
+ let tries=0;while(arr.length<n&&tries<n*8){tries++;let type=types[arr.length%types.length],x=makeQuestion(type);let key=x.text.replace(/<[^>]+>/g,"");if(!stateSet.has(key)){stateSet.add(key);arr.push(x)}}
+ while(arr.length<n)arr.push(makeQuestion(types[arr.length%types.length]));
+ state.questions=shuffle(arr);render();$("status").textContent=`✓ ${state.questions.length} soal berhasil dibuat • ${$("materi").value}`;
+}
+$("generate").onclick=generate;
+$("randomize").onclick=()=>{if(!state.questions.length){generate();return}state.questions=shuffle(state.questions);render();$("status").textContent="↻ Urutan soal diacak."};
+$("keyToggle").onclick=()=>{state.showKey=!state.showKey;render();$("status").textContent=state.showKey?"🔑 Kunci jawaban ditampilkan.":"Kunci jawaban disembunyikan."};
+$("print").onclick=()=>{if(!state.questions.length)generate();setTimeout(()=>window.print(),100)};
+</script>
+</body>
+</html>
